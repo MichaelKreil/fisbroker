@@ -1,5 +1,6 @@
 var fs = require('fs');
 var Path = require('path');
+var helper = require('./modules/helper.js');
 
 var config = require('./config.js').config;
 
@@ -31,7 +32,6 @@ function scan(name, zoom) {
 	var todos = [];
 
 	function mergerRec(imageList, zoom) {
-		todos.push('echo "Level '+(zoom-1)+'"');
 		console.log('Level '+(zoom-1));
 
 		var newTiles = {};
@@ -84,7 +84,7 @@ function scan(name, zoom) {
 
 	mergerRec(imageList, zoom);
 
-	fs.writeFileSync('./script_merge_'+name+'.sh', todos.join('\n'), 'utf8');
+	fs.writeFileSync('./script_merge_'+name+'.sh', helper.makeBash(todos), 'utf8');
 }
 
 function ensureFolder(folder) {

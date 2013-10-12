@@ -1,5 +1,6 @@
 var fs = require('fs');
 var Path = require('path');
+var helper = require('./modules/helper.js');
 
 var config = require('./config.js').config;
 
@@ -61,7 +62,7 @@ function scan(name, zoom) {
 		}
 	})
 
-	fs.writeFileSync('./script_split_'+name+'.sh', todos.join('\n'), 'utf8');
+	fs.writeFileSync('./script_split_'+name+'.sh', helper.makeBash(todos), 'utf8');
 }
 
 function ensureFolder(folder) {
