@@ -43,18 +43,20 @@ function scan(name, zoom) {
 
 	var todos1 = [];
 	imageList.forEach(function (entry) {
-		todos1.push('echo "'+zoom+'/'+entry.x+'/'+entry.y+'"');
+		var newFolder = '../data/tiles/'+name+'/'+newZoom+'/'+entry.x*factor+'/'+entry.y*factor;
 
-		var tempFolder = '../data/tiles/'+name+'/'+newZoom+'/'+entry.x*factor+'/'+entry.y*factor;
+		if (!fs.existsSync(newFolder+'.png')) {
+			todos1.push('echo "'+zoom+'/'+entry.x+'/'+entry.y+'"');
 
-		todos1.push(
-			'convert -crop 256x256 +repage ../data/big/luftbild2011/'+zoom+'/'+entry.x+'/'+entry.y+'.png '+tempFolder+'_%d.png')
-		
-		var i = 0;
-		for (var dy = 0; dy < factor; dy++) {
-			for (var dx = 0; dx < factor; dx++) {
-				todos1.push('mv '+tempFolder+'_'+i+'.png ../data/tiles/'+name+'/'+newZoom+'/'+(entry.x*factor+dx)+'/'+(entry.y*factor+dy)+'.png');
-				i++;
+			todos1.push(
+				'convert -crop 256x256 +repage ../data/big/luftbild2011/'+zoom+'/'+entry.x+'/'+entry.y+'.png '+newFolder+'_%d.png')
+			
+			var i = 0;
+			for (var dy = 0; dy < factor; dy++) {
+				for (var dx = 0; dx < factor; dx++) {
+					todos1.push('mv '+newFolder+'_'+i+'.png ../data/tiles/'+name+'/'+newZoom+'/'+(entry.x*factor+dx)+'/'+(entry.y*factor+dy)+'.png');
+					i++;
+				}
 			}
 		}
 	})
