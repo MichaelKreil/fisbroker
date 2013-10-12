@@ -1,3 +1,4 @@
 
 data
 scraper/node_modules
+scraper/*.sh
